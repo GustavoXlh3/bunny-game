@@ -14,6 +14,7 @@ var fruit, rope;
 var connectFruit;
 var rabbit;
 var backGround, rabbitImg, fruitImg;
+var button_cut;
 
 function preload(){
 rabbitImg = loadImage("./images/Rabbit-01.png");
@@ -37,11 +38,17 @@ function setup() {
   ellipseMode(RADIUS);
   textSize(50)
   
-   fruit = Bodies.circle(300, 300, 20);
+   fruit = Bodies.circle(300, 250, 20);
    //World.add(world, fruit);
 
    Composite.add (rope.body, fruit);
    connectFruit = new Link(rope, fruit);
+
+   button_cut = createImg("./images/cut_btn.png");
+   button_cut.position(225, 30);
+   button_cut.size(50,50);
+   button_cut.mouseClicked(drop);
+
 }
 
 function draw() {
@@ -58,4 +65,9 @@ function draw() {
   
   Engine.update(engine);
   drawSprites();
+}
+
+
+function drop() {
+  
 }
