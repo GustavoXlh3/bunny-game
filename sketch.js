@@ -69,5 +69,7 @@ function draw() {
 
 
 function drop() {
-  
+  rope.break();
+  connectFruit.detach();
+  connectFruit = null;
 }

@@ -22,8 +22,7 @@ class Rope
     }));
   }
   
-  break()
-  { 
+  break(){ 
     this.body = null;
   }
   
