@@ -13,13 +13,21 @@ var ground;
 var fruit, rope;
 var connectFruit;
 var rabbit;
-var backGround, rabbitImg, fruitImg;
+var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
 var button_cut;
 
 function preload(){
 rabbitImg = loadImage("./images/Rabbit-01.png");
 backGround = loadImage("./images/background.png");
 fruitImg = loadImage("./images/melon.png");
+eatAnim = loadAnimation("./images/eat_0.png", "./images/eat_1.png", "./images/eat_2.png", "./images/eat_3.png", "./images/eat_4.png");
+sadAnim = loadAnimation("./images/sad_1.png", "./images/sad_2.png", "./images/sad_3.png");
+blinkAnim = loadAnimation("./images/blink_1.png", "./images/blink_2.png" , "./images/blink_3.png", "./images/blink_2.png");
+eatAnim.frameDelay = 20;
+eatAnim.looping = false;
+sadAnim.frameDelay = 20;
+sadAnim.looping = false;
+blinkAnim.frameDelay = 20;
 }
 
 function setup() {
@@ -31,7 +39,9 @@ function setup() {
   rope = new Rope(5, {x:245, y:30});
 
   rabbit = createSprite(250, 430, 80, 80);
-  rabbit.addImage(rabbitImg);
+  rabbit.addAnimation("blink", blinkAnim);
+  rabbit.addAnimation("eat", eatAnim);
+  rabbit.addAnimation("sad", sadAnim);
   rabbit.scale = 0.2;
 
   rectMode(CENTER);
