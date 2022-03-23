@@ -17,17 +17,17 @@ var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
 var button_cut;
 
 function preload(){
-rabbitImg = loadImage("./images/Rabbit-01.png");
-backGround = loadImage("./images/background.png");
-fruitImg = loadImage("./images/melon.png");
-eatAnim = loadAnimation("./images/eat_0.png", "./images/eat_1.png", "./images/eat_2.png", "./images/eat_3.png", "./images/eat_4.png");
-sadAnim = loadAnimation("./images/sad_1.png", "./images/sad_2.png", "./images/sad_3.png");
-blinkAnim = loadAnimation("./images/blink_1.png", "./images/blink_2.png" , "./images/blink_3.png", "./images/blink_2.png");
-eatAnim.frameDelay = 20;
-eatAnim.looping = false;
-sadAnim.frameDelay = 20;
-sadAnim.looping = false;
-blinkAnim.frameDelay = 20;
+  rabbitImg = loadImage("./images/Rabbit-01.png");
+  backGround = loadImage("./images/background.png");
+  fruitImg = loadImage("./images/melon.png");
+  eatAnim = loadAnimation("./images/eat_0.png", "./images/eat_1.png", "./images/eat_2.png", "./images/eat_3.png", "./images/eat_4.png");
+  sadAnim = loadAnimation("./images/sad_1.png", "./images/sad_2.png", "./images/sad_3.png");
+  blinkAnim = loadAnimation("./images/blink_1.png", "./images/blink_2.png" , "./images/blink_3.png", "./images/blink_2.png");
+  eatAnim.frameDelay = 20;
+  eatAnim.looping = false;
+  sadAnim.frameDelay = 20;
+  sadAnim.looping = false;
+  blinkAnim.frameDelay = 20;
 }
 
 function setup() {
@@ -66,13 +66,19 @@ function draw() {
   //background(51);
   ground.show();
   rope.show();
-  push();
-  imageMode(CENTER);
-  image(fruitImg, fruit.position.x, fruit.position.y, 80, 80);
-  pop();
+  if(fruit){
+    push();
+    imageMode(CENTER);
+    image(fruitImg, fruit.position.x, fruit.position.y, 80, 80);
+    pop();
+  }
 
   //ellipse(fruit.position.x, fruit.position.y, 20, 20);
-  
+
+  if(collide(rabbit, fruit)) {
+    rabbit.changeAnimation("eat");
+  }
+
   Engine.update(engine);
   drawSprites();
 }
@@ -82,4 +88,18 @@ function drop() {
   rope.break();
   connectFruit.detach();
   connectFruit = null;
+}
+
+function collide(elementA, elementB) {
+  if(elementA && elementB) {
+    var diff = dist(elementA.position.x, elementA.position.y, elementB.position.x, elementB.position.y);
+
+    if(diff < 80) {
+      World.remove(world, fruit);
+      fruit = null;
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
