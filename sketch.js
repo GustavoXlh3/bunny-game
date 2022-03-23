@@ -78,6 +78,14 @@ function draw() {
   if(collide(rabbit, fruit)) {
     rabbit.changeAnimation("eat");
   }
+  if(fruit){
+    var collided = Matter.SAT.collides(fruit, ground.body);
+    if(collided.collided){
+      rabbit.changeAnimation("sad");
+      World.remove(world,fruit);
+      fruit = null;
+    }
+  }
 
   Engine.update(engine);
   drawSprites();
