@@ -15,7 +15,7 @@ var connectFruit;
 var rabbit;
 var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
 var airSound, eatSound, ropeSound, backgroundSound;
-var button_cut;
+var button_cut, button_mute;
 
 function preload(){
   rabbitImg = loadImage("./images/Rabbit-01.png");
@@ -66,6 +66,11 @@ function setup() {
    button_cut.position(225, 30);
    button_cut.size(50,50);
    button_cut.mouseClicked(drop);
+
+   button_mute = createImg("./images/mute.png");
+   button_mute.position(width-80, 30);
+   button_mute.size(50,50);
+   button_mute.mouseClicked(muteSound);
 
 }
 
@@ -119,5 +124,13 @@ function collide(elementA, elementB) {
     } else {
       return false;
     }
+  }
+}
+
+function muteSound() {
+  if(backgroundSound.isPlaying()) {
+    backgroundSound.stop();
+  } else {
+    backgroundSound.play();
   }
 }
