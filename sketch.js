@@ -14,6 +14,7 @@ var fruit, rope;
 var connectFruit;
 var rabbit;
 var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
+var airSound, eatSound, ropeSound, backgroundSound;
 var button_cut;
 
 function preload(){
@@ -23,6 +24,10 @@ function preload(){
   eatAnim = loadAnimation("./images/eat_0.png", "./images/eat_1.png", "./images/eat_2.png", "./images/eat_3.png", "./images/eat_4.png");
   sadAnim = loadAnimation("./images/sad_1.png", "./images/sad_2.png", "./images/sad_3.png");
   blinkAnim = loadAnimation("./images/blink_1.png", "./images/blink_2.png" , "./images/blink_3.png", "./images/blink_2.png");
+  airSound = loadSound("./sound/air.wav");
+  eatSound = loadSound("./sound/eating_sound.mp3");
+  ropeSound = loadSound("./sound/rope_cut.mp3");
+  backgroundSound = loadSound("./sound/sound1.mp3");
   eatAnim.frameDelay = 20;
   eatAnim.looping = false;
   sadAnim.frameDelay = 20;
@@ -33,6 +38,9 @@ function preload(){
 function setup() {
   createCanvas(500,500);
   frameRate(80);
+  backgroundSound.play();
+  backgroundSound.setVolume(0.5);
+
   engine = Engine.create();
   world = engine.world;
   ground = new Ground(200,490,600,20);
@@ -77,6 +85,7 @@ function draw() {
 
   if(collide(rabbit, fruit)) {
     rabbit.changeAnimation("eat");
+    eatSound.play();
   }
   if(fruit){
     var collided = Matter.SAT.collides(fruit, ground.body);
@@ -96,6 +105,7 @@ function drop() {
   rope.break();
   connectFruit.detach();
   connectFruit = null;
+  ropeSound.play();
 }
 
 function collide(elementA, elementB) {
