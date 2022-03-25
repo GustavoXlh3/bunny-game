@@ -15,7 +15,7 @@ var connectFruit;
 var rabbit;
 var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
 var airSound, eatSound, ropeSound, backgroundSound;
-var button_cut, button_mute;
+var button_cut, button_mute, blower_button;
 
 function preload(){
   rabbitImg = loadImage("./images/Rabbit-01.png");
@@ -46,7 +46,7 @@ function setup() {
   ground = new Ground(200,490,600,20);
   rope = new Rope(5, {x:245, y:30});
 
-  rabbit = createSprite(250, 430, 80, 80);
+  rabbit = createSprite(390, 430, 80, 80);
   rabbit.addAnimation("blink", blinkAnim);
   rabbit.addAnimation("eat", eatAnim);
   rabbit.addAnimation("sad", sadAnim);
@@ -56,21 +56,26 @@ function setup() {
   ellipseMode(RADIUS);
   textSize(50)
   
-   fruit = Bodies.circle(300, 250, 20);
-   //World.add(world, fruit);
+  fruit = Bodies.circle(300, 250, 20);
+  //World.add(world, fruit);
 
-   Composite.add (rope.body, fruit);
-   connectFruit = new Link(rope, fruit);
+  Composite.add (rope.body, fruit);
+  connectFruit = new Link(rope, fruit);
 
-   button_cut = createImg("./images/cut_btn.png");
-   button_cut.position(225, 30);
-   button_cut.size(50,50);
-   button_cut.mouseClicked(drop);
+  button_cut = createImg("./images/cut_btn.png");
+  button_cut.position(225, 30);
+  button_cut.size(50,50);
+  button_cut.mouseClicked(drop);
 
-   button_mute = createImg("./images/mute.png");
-   button_mute.position(width-80, 30);
-   button_mute.size(50,50);
-   button_mute.mouseClicked(muteSound);
+  button_mute = createImg("./images/mute.png");
+  button_mute.position(width-80, 30);
+  button_mute.size(50,50);
+  button_mute.mouseClicked(muteSound);
+
+  blower_button = createImg("./images/balloon.png");
+  blower_button.position(80, 200);
+  blower_button.size(150,100);
+  blower_button.mouseClicked(airBlow)
 
 }
 
@@ -133,4 +138,9 @@ function muteSound() {
   } else {
     backgroundSound.play();
   }
+}
+
+function airBlow(){
+  Body.applyForce(fruit, {x: 0, y:0}, {x:0.01, y:0});
+  airSound.play();
 }
