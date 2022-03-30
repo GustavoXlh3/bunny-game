@@ -16,7 +16,8 @@ var rabbit;
 var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
 var airSound, eatSound, ropeSound, backgroundSound;
 var button_cut, button_cut2, button_cut3, button_mute, blower_button;
-
+var isMobile;
+var canH, canW;
 function preload(){
   rabbitImg = loadImage("./images/Rabbit-01.png");
   backGround = loadImage("./images/background.png");
@@ -36,20 +37,31 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(500,500);
+  isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if (isMobile) {
+    createCanvas(displayWidth,displayHeight);
+    canH = displayHeight;
+    canW = displayWidth;
+  }else {
+    createCanvas(500,500);
+    canH = 500;
+    canW = 500;
+  }
+
+  
   frameRate(80);
   backgroundSound.play();
   backgroundSound.setVolume(0.5);
-
+  // width height
   engine = Engine.create();
   world = engine.world;
-  ground = new Ground(200,490,600,20);
-  rope = new Rope(7, {x:40, y:30});
-  rope2 = new Rope(7, {x:370, y:40});
-  rope3 = new Rope(4, {x:400, y:225});
+  ground = new Ground(200,canH-10,600,20);
+  rope = new Rope(7, {x: 40, y:30});
+  rope2 = new Rope(7, {x:canW - 130, y:40});
+  rope3 = new Rope(4, {x:canW - 100, y:225});
   
 
-  rabbit = createSprite(170, 415, 80, 80);
+  rabbit = createSprite(170, canH-85, 80, 80);
   rabbit.addAnimation("blink", blinkAnim);
   rabbit.addAnimation("eat", eatAnim);
   rabbit.addAnimation("sad", sadAnim);
@@ -75,12 +87,12 @@ function setup() {
 
 
   button_cut2 = createImg("./images/cut_btn.png");
-  button_cut2.position(330, 35);
+  button_cut2.position(canW - 170, 35);
   button_cut2.size(50,50);
   button_cut2.mouseClicked(drop2);
 
   button_cut3 = createImg("./images/cut_btn.png");
-  button_cut3.position(360, 200);
+  button_cut3.position(canW - 140, 200);
   button_cut3.size(50,50);
   button_cut3.mouseClicked(drop3);
 
@@ -97,7 +109,7 @@ function setup() {
 }
 
 function draw() {
-  image(backGround, 0, 0, width, height);
+  image(backGround, 0, 0, canW, canH);
   //background(51);
   ground.show();
   rope.show();
