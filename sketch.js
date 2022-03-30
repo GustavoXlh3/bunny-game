@@ -10,12 +10,12 @@ const Composite = Matter.Composite;
 let engine;
 let world;
 var ground;
-var fruit, rope;
-var connectFruit;
+var fruit, rope, rope2, rope3;
+var connectFruit, connectFruit2, connectFruit3;
 var rabbit;
 var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
 var airSound, eatSound, ropeSound, backgroundSound;
-var button_cut, button_mute, blower_button;
+var button_cut, button_cut2, button_cut3, button_mute, blower_button;
 
 function preload(){
   rabbitImg = loadImage("./images/Rabbit-01.png");
@@ -44,9 +44,12 @@ function setup() {
   engine = Engine.create();
   world = engine.world;
   ground = new Ground(200,490,600,20);
-  rope = new Rope(5, {x:245, y:30});
+  rope = new Rope(7, {x:40, y:30});
+  rope2 = new Rope(7, {x:370, y:40});
+  rope3 = new Rope(4, {x:400, y:225});
+  
 
-  rabbit = createSprite(390, 430, 80, 80);
+  rabbit = createSprite(170, 415, 80, 80);
   rabbit.addAnimation("blink", blinkAnim);
   rabbit.addAnimation("eat", eatAnim);
   rabbit.addAnimation("sad", sadAnim);
@@ -61,21 +64,35 @@ function setup() {
 
   Composite.add (rope.body, fruit);
   connectFruit = new Link(rope, fruit);
+  connectFruit2 = new Link(rope2, fruit);
+  connectFruit3 = new Link(rope3, fruit);
+
 
   button_cut = createImg("./images/cut_btn.png");
-  button_cut.position(225, 30);
+  button_cut.position(20, 30);
   button_cut.size(50,50);
   button_cut.mouseClicked(drop);
+
+
+  button_cut2 = createImg("./images/cut_btn.png");
+  button_cut2.position(330, 35);
+  button_cut2.size(50,50);
+  button_cut2.mouseClicked(drop2);
+
+  button_cut3 = createImg("./images/cut_btn.png");
+  button_cut3.position(360, 200);
+  button_cut3.size(50,50);
+  button_cut3.mouseClicked(drop3);
 
   button_mute = createImg("./images/mute.png");
   button_mute.position(width-80, 30);
   button_mute.size(50,50);
   button_mute.mouseClicked(muteSound);
 
-  blower_button = createImg("./images/balloon.png");
-  blower_button.position(80, 200);
-  blower_button.size(150,100);
-  blower_button.mouseClicked(airBlow)
+  // blower_button = createImg("./images/balloon.png");
+  // blower_button.position(80, 200);
+  // blower_button.size(150,100);
+  // blower_button.mouseClicked(airBlow)
 
 }
 
@@ -84,6 +101,8 @@ function draw() {
   //background(51);
   ground.show();
   rope.show();
+  rope2.show();
+  rope3.show();
   if(fruit){
     push();
     imageMode(CENTER);
@@ -115,6 +134,20 @@ function drop() {
   rope.break();
   connectFruit.detach();
   connectFruit = null;
+  ropeSound.play();
+}
+
+function drop2() {
+  rope2.break();
+  connectFruit2.detach();
+  connectFruit2 = null;
+  ropeSound.play();
+}
+
+function drop3() {
+  rope3.break();
+  connectFruit3.detach();
+  connectFruit3 = null;
   ropeSound.play();
 }
 
