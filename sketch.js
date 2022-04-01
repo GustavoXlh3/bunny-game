@@ -10,10 +10,10 @@ const Composite = Matter.Composite;
 let engine;
 let world;
 var ground;
-var fruit, rope, rope2, rope3;
+var fruit, star, star2, rope, rope2, rope3;
 var connectFruit, connectFruit2, connectFruit3;
 var rabbit;
-var backGround, rabbitImg, fruitImg, eatAnim, sadAnim, blinkAnim;
+var backGround, rabbitImg, fruitImg, starImg, eatAnim, sadAnim, blinkAnim;
 var airSound, eatSound, ropeSound, backgroundSound;
 var button_cut, button_cut2, button_cut3, button_mute, blower_button;
 var isMobile;
@@ -22,6 +22,7 @@ function preload(){
   rabbitImg = loadImage("./images/Rabbit-01.png");
   backGround = loadImage("./images/background.png");
   fruitImg = loadImage("./images/melon.png");
+  starImg = loadImage("./images/star.png");
   eatAnim = loadAnimation("./images/eat_0.png", "./images/eat_1.png", "./images/eat_2.png", "./images/eat_3.png", "./images/eat_4.png");
   sadAnim = loadAnimation("./images/sad_1.png", "./images/sad_2.png", "./images/sad_3.png");
   blinkAnim = loadAnimation("./images/blink_1.png", "./images/blink_2.png" , "./images/blink_3.png", "./images/blink_2.png");
@@ -43,9 +44,9 @@ function setup() {
     canH = displayHeight;
     canW = displayWidth;
   }else {
-    createCanvas(500,500);
-    canH = 500;
-    canW = 500;
+    createCanvas(600,700);
+    canH = 700;
+    canW = 600;
   }
 
   
@@ -55,10 +56,10 @@ function setup() {
   // width height
   engine = Engine.create();
   world = engine.world;
-  ground = new Ground(200,canH-10,600,20);
-  rope = new Rope(7, {x: 40, y:30});
-  rope2 = new Rope(7, {x:canW - 130, y:40});
-  rope3 = new Rope(4, {x:canW - 100, y:225});
+  ground = new Ground(canW/2,canH-10,canW,20);
+  rope = new Rope(7, {x: 100, y:90});
+  rope2 = new Rope(7, {x:canW - 100, y:90});
+  //rope3 = new Rope(4, {x:canW - 100, y:225});
   
 
   rabbit = createSprite(170, canH-85, 80, 80);
@@ -66,6 +67,13 @@ function setup() {
   rabbit.addAnimation("eat", eatAnim);
   rabbit.addAnimation("sad", sadAnim);
   rabbit.scale = 0.2;
+
+  star = createSprite(300, 50, 30, 30);
+  star2 = createSprite(60, 350, 30, 30);
+  star.addImage(starImg);
+  star2.addImage(starImg);
+  star.scale = 0.02;
+  star2.scale = 0.02;
 
   rectMode(CENTER);
   ellipseMode(RADIUS);
@@ -77,34 +85,34 @@ function setup() {
   Composite.add (rope.body, fruit);
   connectFruit = new Link(rope, fruit);
   connectFruit2 = new Link(rope2, fruit);
-  connectFruit3 = new Link(rope3, fruit);
+  //connectFruit3 = new Link(rope3, fruit);
 
 
   button_cut = createImg("./images/cut_btn.png");
-  button_cut.position(20, 30);
+  button_cut.position(90, 90);
   button_cut.size(50,50);
   button_cut.mouseClicked(drop);
 
 
   button_cut2 = createImg("./images/cut_btn.png");
-  button_cut2.position(canW - 170, 35);
+  button_cut2.position(canW - 130, 90);
   button_cut2.size(50,50);
   button_cut2.mouseClicked(drop2);
 
-  button_cut3 = createImg("./images/cut_btn.png");
-  button_cut3.position(canW - 140, 200);
-  button_cut3.size(50,50);
-  button_cut3.mouseClicked(drop3);
+  //button_cut3 = createImg("./images/cut_btn.png");
+  //button_cut3.position(canW - 140, 200);
+  //button_cut3.size(50,50);
+  //button_cut3.mouseClicked(drop3);
 
   button_mute = createImg("./images/mute.png");
   button_mute.position(width-80, 30);
   button_mute.size(50,50);
   button_mute.mouseClicked(muteSound);
 
-  // blower_button = createImg("./images/balloon.png");
-  // blower_button.position(80, 200);
-  // blower_button.size(150,100);
-  // blower_button.mouseClicked(airBlow)
+   blower_button = createImg("./images/baloon2.png");
+   blower_button.position(240, 280);
+   blower_button.size(100,150);
+   blower_button.mouseClicked(airBlow)
 
 }
 
@@ -114,7 +122,7 @@ function draw() {
   ground.show();
   rope.show();
   rope2.show();
-  rope3.show();
+  ///rope3.show();
   if(fruit){
     push();
     imageMode(CENTER);
@@ -156,12 +164,12 @@ function drop2() {
   ropeSound.play();
 }
 
-function drop3() {
-  rope3.break();
-  connectFruit3.detach();
-  connectFruit3 = null;
-  ropeSound.play();
-}
+//function drop3() {
+  //rope3.break();
+  //connectFruit3.detach();
+  //connectFruit3 = null;
+  //ropeSound.play();
+//}
 
 function collide(elementA, elementB) {
   if(elementA && elementB) {
@@ -186,6 +194,6 @@ function muteSound() {
 }
 
 function airBlow(){
-  Body.applyForce(fruit, {x: 0, y:0}, {x:0.01, y:0});
+  Body.applyForce(fruit, {x: 0, y:0}, {x:0, y:-0.02});
   airSound.play();
 }
